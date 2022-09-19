@@ -1,26 +1,22 @@
+import { Author } from './author.interface';
+
 export type Price = {
   amount: number;
   currency: string;
-  decimals: number;
 };
 
 export type Item = {
   id: string;
-  price: Price;
   title: string;
-};
-
-export type Author = {
-  name: string;
-  lastname: string;
+  price: Price;
+  address: string;
+  picture: string;
+  condition: string;
+  free_shipping: boolean;
 };
 
 export interface Response {
   items: Item[];
   author: Author;
-  picture: string;
-  address: string;
-  condition: string;
   categories: string[];
-  free_shipping: boolean;
 }
