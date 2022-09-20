@@ -12,6 +12,7 @@ export type Result = {
   };
   thumbnail: string;
   condition: string;
+  category_id: string;
   shipping: {
     free_shipping: boolean;
   };
@@ -48,6 +49,14 @@ export type ResultDetail = {
 
 export interface ItemsResponse {
   results: Result[];
+  filters: {
+    values: {
+      path_from_root: {
+        id: string;
+        name: string;
+      }[];
+    }[];
+  }[];
 }
 
 export interface Category {

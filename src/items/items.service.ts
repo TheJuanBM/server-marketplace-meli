@@ -3,7 +3,6 @@ import { endpoints } from 'src/config';
 import { AxiosAdapter } from '../common/adapters';
 import {
   Author,
-  Category,
   Item,
   ItemsResponse,
   ResultDetail,
@@ -16,12 +15,6 @@ export class ItemsService {
 
   private readonly author: Author = { name: 'Juan Pablo', lastname: 'Bedoya' };
 
-  async getCategories() {
-    const categories = await this.http.get<Category[]>(endpoints.categories);
-
-    return categories.map(({ name }) => name);
-  }
-
   async getDescriptionById(id: string) {
     const description = await this.http.get<{ plain_text: string }>(
       `${endpoints.description(id)}`,
@@ -31,12 +24,11 @@ export class ItemsService {
   }
 
   async getItems(search: string) {
-    const items: Item[] = [];
-    const categories = await this.getCategories();
-
-    const { results } = await this.http.get<ItemsResponse>(
+    const { results, filters } = await this.http.get<ItemsResponse>(
       `${endpoints.search(search)}`,
     );
+
+    const items: Item[] = [];
 
     results.map((item) => {
       items.push({
@@ -52,6 +44,10 @@ export class ItemsService {
         },
       });
     });
+
+    const categories = filters[0].values[0].path_from_root.map(
+      ({ name }) => name,
+    );
 
     return { author: this.author, categories, items };
   }
