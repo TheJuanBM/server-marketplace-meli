@@ -24,6 +24,8 @@ export class ItemsService {
   }
 
   async getItems(search: string) {
+    console.log(`${endpoints.search(search)}`);
+
     const { results, filters } = await this.http.get<ItemsResponse>(
       `${endpoints.search(search)}`,
     );
@@ -45,7 +47,7 @@ export class ItemsService {
       });
     });
 
-    const categories = filters[0].values[0].path_from_root.map(
+    const categories = filters[0]?.values[0]?.path_from_root.map(
       ({ name }) => name,
     );
 
