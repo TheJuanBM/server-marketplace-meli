@@ -6,7 +6,7 @@ async function main() {
 
   app.setGlobalPrefix('api/');
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT);
 }
 
 main();
