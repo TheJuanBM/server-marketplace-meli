@@ -33,33 +33,37 @@ export class ItemsService {
   }
 
   async getItems(search: string) {
-    const { results, filters } = await this.http.get<ItemsResponse>(
-      `${endpoints.search(search)}`,
-    );
+    try {
+      const { results, filters } = await this.http.get<ItemsResponse>(
+        `${endpoints.search(search)}`,
+      );
 
-    const items: Item[] = [];
+      const items: Item[] = [];
 
-    results.map((item) => {
-      items.push({
-        id: item.id,
-        title: item.title,
-        picture: item.thumbnail,
-        condition: item.condition,
-        address: item.address.city_name,
-        free_shipping: item.shipping.free_shipping,
+      results.map((item) => {
+        items.push({
+          id: item.id,
+          title: item.title,
+          picture: item.thumbnail,
+          condition: item.condition,
+          address: item.address.city_name,
+          free_shipping: item.shipping.free_shipping,
 
-        price: {
-          amount: item.prices.prices[0].amount,
-          currency: item.prices.prices[0].currency_id,
-        },
+          price: {
+            amount: item.prices.prices[0].amount,
+            currency: item.prices.prices[0].currency_id,
+          },
+        });
       });
-    });
 
-    const categories = filters[0]?.values[0]?.path_from_root.map(
-      ({ name }) => name,
-    );
+      const categories = filters[0]?.values[0]?.path_from_root.map(
+        ({ name }) => name,
+      );
 
-    return { author: this.author, categories, items };
+      return { author: this.author, categories, items };
+    } catch (error) {
+      return { author: this.author, items: [] };
+    }
   }
 
   async getItemById(id: string) {
