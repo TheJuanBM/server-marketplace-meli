@@ -82,7 +82,7 @@ export class ItemsService {
       condition: itemDetail.condition,
       sold_quantity: itemDetail.sold_quantity,
       free_shipping: itemDetail.shipping.free_shipping,
-      categories,
+      categories: categories.map(({ name }) => name),
       description,
     };
 

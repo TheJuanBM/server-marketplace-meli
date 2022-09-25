@@ -46,7 +46,7 @@ export type ResultDetail = {
   description: string;
   sold_quantity: number;
   free_shipping: boolean;
-  categories: Category[];
+  categories: string[];
 };
 
 export interface ItemsResponse {
