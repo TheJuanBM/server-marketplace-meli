@@ -3,6 +3,7 @@ import { endpoints } from 'src/config';
 import { AxiosAdapter } from '../common/adapters';
 import {
   Author,
+  Categories,
   Item,
   ItemsResponse,
   ResultDetail,
@@ -23,9 +24,15 @@ export class ItemsService {
     return description.plain_text;
   }
 
-  async getItems(search: string) {
-    console.log(`${endpoints.search(search)}`);
+  async getCategoryById(categoryId: string) {
+    const { path_from_root } = await this.http.get<Categories>(
+      `${endpoints.category(categoryId)}`,
+    );
 
+    return path_from_root;
+  }
+
+  async getItems(search: string) {
     const { results, filters } = await this.http.get<ItemsResponse>(
       `${endpoints.search(search)}`,
     );
@@ -40,6 +47,7 @@ export class ItemsService {
         condition: item.condition,
         address: item.address.city_name,
         free_shipping: item.shipping.free_shipping,
+
         price: {
           amount: item.prices.prices[0].amount,
           currency: item.prices.prices[0].currency_id,
@@ -61,6 +69,8 @@ export class ItemsService {
       `${endpoints.detail(id)}`,
     );
 
+    const categories = await this.getCategoryById(itemDetail.category_id);
+
     const formatResult: ResultDetail = {
       id: itemDetail.id,
       title: itemDetail.title,
@@ -72,6 +82,7 @@ export class ItemsService {
       condition: itemDetail.condition,
       sold_quantity: itemDetail.sold_quantity,
       free_shipping: itemDetail.shipping.free_shipping,
+      categories,
       description,
     };
 

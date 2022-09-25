@@ -9,7 +9,9 @@ export const endpoints = {
   search: (search: string, limit = 4) =>
     `${process.env.ENDPOINT}/search?q=${search}&limit=${limit}`,
   categories: `${process.env.ENDPOINT}/categories`,
-  detail: (id: string) => `${process.env.ENDPOINT_DETAILD}/${id}`,
+  category: (category: string) =>
+    `${process.env.ENDPOINT_DETAILD}/categories/${category}`,
+  detail: (id: string) => `${process.env.ENDPOINT_DETAILD}/items/${id}`,
   description: (id: string) =>
-    `${process.env.ENDPOINT_DETAILD}/${id}/description`,
+    `${process.env.ENDPOINT_DETAILD}/items/${id}/description`,
 };

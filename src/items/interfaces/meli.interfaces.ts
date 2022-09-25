@@ -27,6 +27,7 @@ export type ResultDetailFetch = {
   sold_quantity: number;
   free_shipping: boolean;
   currency_id: string;
+  category_id: string;
   secure_thumbnail: string;
   shipping: {
     free_shipping: boolean;
@@ -42,9 +43,10 @@ export type ResultDetail = {
   };
   picture: string;
   condition: string;
+  description: string;
   sold_quantity: number;
   free_shipping: boolean;
-  description: string;
+  categories: Category[];
 };
 
 export interface ItemsResponse {
@@ -63,3 +65,10 @@ export interface Category {
   id: string;
   name: string;
 }
+
+export type Categories = {
+  path_from_root: {
+    id: string;
+    name: string;
+  }[];
+};
